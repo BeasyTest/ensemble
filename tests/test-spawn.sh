@@ -39,6 +39,9 @@ assert_match() {
 # Source spawn-worker.sh in dry-run mode (defines functions only)
 source "$SCRIPT_DIR/../src/spawn-worker.sh" --dry-run
 
+# Override template path to use repo templates (not installed path)
+ORCH_TEMPLATES="$SCRIPT_DIR/../templates"
+
 echo "=== generate_worker_id tests ==="
 
 # Test 1: basic name
