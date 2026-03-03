@@ -14,9 +14,8 @@
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux-brightgreen.svg" alt="Platform">
 </p>
 
-<p align="center">
-  <img src="assets/demo.gif" alt="Ensemble Demo" width="800">
-</p>
+<!-- Demo GIF will be added in a future release -->
+<!-- <p align="center"><img src="assets/demo.gif" alt="Ensemble Demo" width="800"></p> -->
 
 ---
 
