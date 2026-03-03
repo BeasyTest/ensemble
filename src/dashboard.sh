@@ -180,7 +180,11 @@ NOW_EPOCH=$(date -u +%s)
 
 # iso_to_epoch ISO8601_UTC_STRING  →  unix timestamp integer
 iso_to_epoch() {
-    date -u -j -f '%Y-%m-%dT%H:%M:%SZ' "$1" '+%s' 2>/dev/null || echo 0
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      date -u -j -f '%Y-%m-%dT%H:%M:%SZ' "$1" '+%s' 2>/dev/null || echo 0
+    else
+      date -u -d "$(echo "$1" | sed 's/Z$//')" +%s 2>/dev/null || echo 0
+    fi
 }
 
 # seconds_to_hms N  →  "2h 05m 30s"

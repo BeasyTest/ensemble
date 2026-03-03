@@ -31,18 +31,14 @@ fi
 #   macOS compatible: uses date -j -f.
 # ---------------------------------------------------------------------------
 _iso_to_epoch() {
-  local iso_str="${1:-}"
-  if [ -z "$iso_str" ]; then
-    echo "0"
-    return 0
-  fi
-  # Strip trailing Z for date parsing
+  local iso_str="$1"
   local cleaned
-  cleaned=$(echo "$iso_str" | sed 's/Z$//')
-  # macOS: date -j -f format. Use TZ=UTC since our ISO strings are UTC.
-  local epoch
-  epoch=$(TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "$cleaned" +"%s" 2>/dev/null || echo "0")
-  echo "$epoch"
+  cleaned=$(echo "$iso_str" | sed 's/Z$//' | sed 's/+00:00$//')
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "$cleaned" +"%s" 2>/dev/null || echo "0"
+  else
+    date -u -d "${cleaned}" +"%s" 2>/dev/null || echo "0"
+  fi
 }
 
 # ---------------------------------------------------------------------------
@@ -92,7 +88,11 @@ update_worker_state() {
   local last_output_at
   if [ -f "$log_file" ] && [ -s "$log_file" ]; then
     local mtime_epoch
-    mtime_epoch=$(stat -f '%m' "$log_file" 2>/dev/null || echo "0")
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      mtime_epoch=$(stat -f '%m' "$log_file" 2>/dev/null || echo "0")
+    else
+      mtime_epoch=$(stat -c '%Y' "$log_file" 2>/dev/null || echo "0")
+    fi
     if [ "$mtime_epoch" != "0" ]; then
       last_output_at=$(date -u -r "$mtime_epoch" +"%Y-%m-%dT%H:%M:%SZ")
     else
