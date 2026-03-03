@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq tmux
+          bash tests/test-spawn.sh
+          bash tests/test-parse-phase.sh
+          bash tests/test-monitor.sh
+          bash tests/test-send-message.sh
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
