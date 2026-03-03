@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# dashboard.sh — Orchestrator Worker Status Dashboard
+# dashboard.sh — Ensemble Worker Status Dashboard
 #
 # Usage:
 #   ./dashboard.sh            — single render
@@ -496,7 +496,7 @@ printf '\033[H'
 render_time=$(date '+%Y-%m-%d %H:%M:%S')
 
 printf '\n'
-printf '%sORCHESTRATOR WORKER DASHBOARD%s' "$BOLD_CYAN" "$RESET"
+printf '%sENSEMBLE WORKER DASHBOARD%s' "$BOLD_CYAN" "$RESET"
 printf '  %s%s%s\n' "$FG_GRAY" "$render_time" "$RESET"
 printf '\n'
 

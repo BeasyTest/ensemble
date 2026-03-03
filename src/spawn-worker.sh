@@ -11,9 +11,9 @@ set -euo pipefail
 ORCH_BASE="${HOME}/.claude/orchestrator"
 ORCH_WORKERS="${ORCH_BASE}/workers"
 ORCH_LOGS="${ORCH_BASE}/logs"
-ORCH_TEMPLATES="${HOME}/.claude/skills/orchestrator/templates"
-ORCH_SCRIPTS="${HOME}/.claude/skills/orchestrator/scripts"
-TMUX_SESSION="orchestra"
+ORCH_TEMPLATES="${HOME}/.claude/skills/ensemble/templates"
+ORCH_SCRIPTS="${HOME}/.claude/skills/ensemble/scripts"
+TMUX_SESSION="ensemble"
 USE_SUPERPOWERS=true
 
 # ---------------------------------------------------------------------------
@@ -147,7 +147,7 @@ print(tmpl.replace('{{TASK_DESCRIPTION}}', sys.argv[1]).replace('{{PROJECT_DIR}}
 
 # ---------------------------------------------------------------------------
 # ensure_tmux_session()
-#   Create tmux session "orchestra" if it doesn't exist. First window named
+#   Create tmux session "ensemble" if it doesn't exist. First window named
 #   "status". If dashboard.sh exists, start watch in it.
 # ---------------------------------------------------------------------------
 ensure_tmux_session() {

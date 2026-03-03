@@ -11,7 +11,7 @@ set -euo pipefail
 ORCH_DIR="${ORCH_DIR:-${HOME}/.claude/orchestrator}"
 ORCH_MESSAGES="${ORCH_DIR}/messages"
 ORCH_WORKERS="${ORCH_DIR}/workers"
-TMUX_SESSION="orchestra"
+TMUX_SESSION="ensemble"
 
 # ---------------------------------------------------------------------------
 # send_message(from, to, text, payload_json)

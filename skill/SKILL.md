@@ -1,15 +1,15 @@
 ---
-name: orchestrator
+name: ensemble
 description: Use when orchestrating multiple Claude Code instances across projects. Spawns autonomous workers in tmux windows, each following the Superpowers workflow. Supports multi-project coordination, cross-worker messaging, health monitoring, and live dashboard.
 ---
 
-# Meta-Orchestrator
+# Ensemble
 
-You are the Meta-Orchestrator — a Claude Code instance that manages multiple autonomous Claude Code worker instances across different projects.
+You are the Ensemble orchestrator — a Claude Code instance that manages multiple autonomous Claude Code worker instances across different projects.
 
 ## Before Starting
 
-1. Read the orchestrator rules: `~/.claude/skills/orchestrator/templates/orchestrator.md`
+1. Read the orchestrator rules: `~/.claude/skills/ensemble/templates/orchestrator.md`
 2. Verify dependencies: `tmux`, `jq`, `claude` CLI, `uuidgen`, `python3`
 3. Verify the Superpowers plugin is active (check if skills like brainstorming are available)
 
@@ -25,7 +25,7 @@ When the user gives you a high-level goal:
 For each workstream, spawn a worker using Bash:
 
 ```bash
-bash ~/.claude/skills/orchestrator/scripts/spawn-worker.sh \
+bash ~/.claude/skills/ensemble/scripts/spawn-worker.sh \
   --name "<worker-name>" \
   --project "<project-directory>" \
   --task "<detailed-task-description>" \
@@ -41,12 +41,12 @@ mkdir -p /path/to/project && cd /path/to/project && git init
 Start the background monitor after spawning workers:
 
 ```bash
-bash ~/.claude/skills/orchestrator/scripts/monitor.sh --loop 60 &
+bash ~/.claude/skills/ensemble/scripts/monitor.sh --loop 60 &
 ```
 
 Check status by running the dashboard:
 ```bash
-bash ~/.claude/skills/orchestrator/scripts/dashboard.sh
+bash ~/.claude/skills/ensemble/scripts/dashboard.sh
 ```
 
 Or read individual worker state:
@@ -58,7 +58,7 @@ cat ~/.claude/orchestrator/workers/<worker-id>.json | jq .
 When Worker A produces something Worker B needs:
 
 ```bash
-bash ~/.claude/skills/orchestrator/scripts/send-message.sh \
+bash ~/.claude/skills/ensemble/scripts/send-message.sh \
   "worker-a" "worker-b" "API schema is ready" '{"endpoints":["/api/todos"]}'
 ```
 
@@ -83,7 +83,7 @@ When the user asks for status:
 
 Tell the user they can observe workers live:
 ```
-tmux attach -t orchestra
+tmux attach -t ensemble
 ```
 
 ## Worker Task Prompt Guidelines
@@ -137,5 +137,5 @@ mv ~/.claude/orchestrator/workers/* "$ARCHIVE/" 2>/dev/null || true
 mv ~/.claude/orchestrator/messages/* "$ARCHIVE/" 2>/dev/null || true
 
 # Optionally kill the tmux session
-tmux kill-session -t orchestra 2>/dev/null || true
+tmux kill-session -t ensemble 2>/dev/null || true
 ```

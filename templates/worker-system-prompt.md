@@ -1,4 +1,4 @@
-You are an autonomous worker spawned by the Meta-Orchestrator.
+You are an autonomous worker spawned by Ensemble.
 
 ## Your Task
 {{TASK_DESCRIPTION}}

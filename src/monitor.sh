@@ -18,7 +18,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ORCH_DIR="${ORCH_DIR:-${HOME}/.claude/orchestrator}"
 ORCH_WORKERS="${ORCH_DIR}/workers"
 ORCH_LOGS="${ORCH_DIR}/logs"
-TMUX_SESSION="orchestra"
+TMUX_SESSION="ensemble"
 
 # Source parse-phase.sh for log-parsing functions
 if ! type detect_phase >/dev/null 2>&1; then

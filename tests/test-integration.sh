@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# test-integration.sh -- End-to-end integration test for the orchestrator.
+# test-integration.sh -- End-to-end integration test for Ensemble.
 #
-# Validates the full orchestrator flow: directory structure, script loading,
+# Validates the full orchestration flow: directory structure, script loading,
 # worker JSON creation, log parsing, monitor cycle, dashboard rendering,
 # cross-worker messaging, and tmux session management.
 #
@@ -67,7 +67,7 @@ teardown() {
     rm -rf "$TMPDIR_TEST"
   fi
   # Clean up any tmux session we created for testing
-  tmux kill-session -t "orchestra-test" 2>/dev/null || true
+  tmux kill-session -t "ensemble-test" 2>/dev/null || true
 }
 
 trap teardown EXIT
@@ -392,10 +392,10 @@ fi
 
 # Verify dashboard produces output (at least the header)
 dashboard_output=$(WATCH_INTERVAL=5 bash "$SCRIPT_DIR/../src/dashboard.sh" 2>/dev/null || true)
-if echo "$dashboard_output" | grep -q "ORCHESTRATOR"; then
+if echo "$dashboard_output" | grep -q "ENSEMBLE"; then
   pass "dashboard renders header"
 else
-  fail "dashboard renders header" "ORCHESTRATOR not found in output"
+  fail "dashboard renders header" "ENSEMBLE not found in output"
 fi
 
 if echo "$dashboard_output" | grep -q "$DASHBOARD_WORKER"; then
@@ -477,7 +477,7 @@ section "tmux Session"
 if command -v tmux >/dev/null 2>&1; then
   # Use a test-specific session name to avoid interfering with real sessions
   ORIG_TMUX_SESSION="$TMUX_SESSION"
-  TMUX_SESSION="orchestra-test"
+  TMUX_SESSION="ensemble-test"
 
   # ensure_tmux_session should create the session
   ensure_tmux_session
