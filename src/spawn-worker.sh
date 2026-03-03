@@ -14,6 +14,7 @@ ORCH_LOGS="${ORCH_BASE}/logs"
 ORCH_TEMPLATES="${HOME}/.claude/skills/orchestrator/templates"
 ORCH_SCRIPTS="${HOME}/.claude/skills/orchestrator/scripts"
 TMUX_SESSION="orchestra"
+USE_SUPERPOWERS=true
 
 # ---------------------------------------------------------------------------
 # _check_deps()
@@ -120,7 +121,12 @@ create_worker_json() {
 # ---------------------------------------------------------------------------
 build_system_prompt() {
   local task="$1" project_dir="$2"
-  local template_file="${ORCH_TEMPLATES}/worker-system-prompt.md"
+  local template_file
+  if [ "$USE_SUPERPOWERS" = "true" ]; then
+    template_file="${ORCH_TEMPLATES}/worker-system-prompt.md"
+  else
+    template_file="${ORCH_TEMPLATES}/worker-system-prompt-generic.md"
+  fi
 
   local template
   if [ -f "$template_file" ]; then
@@ -262,6 +268,7 @@ _spawn_worker_main() {
       --project)  project="$2"; shift 2 ;;
       --task)     task="$2";    shift 2 ;;
       --budget)   budget="$2";  shift 2 ;;
+      --no-superpowers) USE_SUPERPOWERS=false; shift ;;
       *)          echo "Unknown option: $1" >&2; return 1 ;;
     esac
   done

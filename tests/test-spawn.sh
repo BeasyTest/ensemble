@@ -163,6 +163,22 @@ else
 fi
 
 echo ""
+echo "=== build_system_prompt generic template tests ==="
+USE_SUPERPOWERS=false
+prompt=$(build_system_prompt "Build a REST API" "/tmp/project")
+
+# Test: generic template is used (contains "Brainstorm" but not "superpowers:")
+echo "$prompt" | grep -q "Brainstorm" && pass "generic template contains Brainstorm" || fail "generic template missing Brainstorm" "Brainstorm not found in prompt"
+echo "$prompt" | grep -q "superpowers:" && fail "generic template should not reference superpowers" "found superpowers: in prompt" || pass "generic template has no superpowers references"
+
+# Test: placeholders still substituted
+echo "$prompt" | grep -q "Build a REST API" && pass "generic task description substituted" || fail "generic task description not substituted" "task not found in prompt"
+echo "$prompt" | grep -q "/tmp/project" && pass "generic project dir substituted" || fail "generic project dir not substituted" "project dir not found in prompt"
+
+# Reset for any subsequent tests
+USE_SUPERPOWERS=true
+
+echo ""
 echo "================================"
 echo "Results: $PASS passed, $FAIL failed"
 if [ "$FAIL" -gt 0 ]; then
