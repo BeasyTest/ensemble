@@ -94,7 +94,11 @@ update_worker_state() {
       mtime_epoch=$(stat -c '%Y' "$log_file" 2>/dev/null || echo "0")
     fi
     if [ "$mtime_epoch" != "0" ]; then
-      last_output_at=$(date -u -r "$mtime_epoch" +"%Y-%m-%dT%H:%M:%SZ")
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        last_output_at=$(date -u -r "$mtime_epoch" +"%Y-%m-%dT%H:%M:%SZ")
+      else
+        last_output_at=$(date -u -d "@${mtime_epoch}" +"%Y-%m-%dT%H:%M:%SZ")
+      fi
     else
       last_output_at=$(jq -r '.last_output_at' "$worker_json")
     fi
