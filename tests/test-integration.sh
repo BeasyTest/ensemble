@@ -18,6 +18,16 @@ PASS=0
 FAIL=0
 TMPDIR_TEST=""
 
+# Cross-platform epoch-to-ISO conversion
+_epoch_to_iso() {
+  local epoch="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    date -u -r "$epoch" +"%Y-%m-%dT%H:%M:%SZ"
+  else
+    date -u -d "@${epoch}" +"%Y-%m-%dT%H:%M:%SZ"
+  fi
+}
+
 pass() {
   PASS=$((PASS + 1))
   echo "  PASS: $1"
@@ -294,7 +304,7 @@ fi
 # Test check_stuck with a stale worker
 STUCK_WORKER="worker-stuck-test"
 old_epoch=$(( $(date +%s) - 600 ))
-old_iso=$(date -u -r "$old_epoch" +"%Y-%m-%dT%H:%M:%SZ")
+old_iso=$(_epoch_to_iso "$old_epoch")
 cat > "$ORCH_DIR/workers/${STUCK_WORKER}.json" <<EOF
 {
   "id": "$STUCK_WORKER",

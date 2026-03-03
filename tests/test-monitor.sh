@@ -28,6 +28,25 @@ assert_eq() {
   fi
 }
 
+# Cross-platform epoch-to-date conversion (macOS: date -r, Linux: date -d @)
+_epoch_to_iso() {
+  local epoch="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    date -u -r "$epoch" +"%Y-%m-%dT%H:%M:%SZ"
+  else
+    date -u -d "@${epoch}" +"%Y-%m-%dT%H:%M:%SZ"
+  fi
+}
+
+_epoch_to_touch() {
+  local epoch="$1"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    date -r "$epoch" +%Y%m%d%H%M.%S
+  else
+    date -d "@${epoch}" +%Y%m%d%H%M.%S
+  fi
+}
+
 # Create a temporary directory for fake worker data
 setup() {
   TMPDIR_TEST=$(mktemp -d)
@@ -164,7 +183,7 @@ echo "=== check_stuck tests ==="
 WORKER4="worker-test-stuck"
 # Set last_output_at to 10 minutes ago
 old_epoch=$(( $(date +%s) - 600 ))
-old_iso=$(date -u -r "$old_epoch" +"%Y-%m-%dT%H:%M:%SZ")
+old_iso=$(_epoch_to_iso "$old_epoch")
 cat > "$ORCH_DIR/workers/${WORKER4}.json" <<EOF
 {
   "id": "$WORKER4",
@@ -321,7 +340,7 @@ cat > "$ORCH_DIR/logs/${WORKER8}.log" <<'JSONL'
 {"type":"assistant","message":{"content":[{"type":"text","text":"[PHASE:implementing] Working..."}]}}
 JSONL
 # Touch the log to set its mtime to the old time too
-touch -t "$(date -r "$old_epoch" +%Y%m%d%H%M.%S)" "$ORCH_DIR/logs/${WORKER8}.log"
+touch -t "$(_epoch_to_touch "$old_epoch")" "$ORCH_DIR/logs/${WORKER8}.log"
 
 run_cycle
 stuck_status=$(jq -r '.status' "$ORCH_DIR/workers/${WORKER8}.json")
