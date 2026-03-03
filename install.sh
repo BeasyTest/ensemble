@@ -2,7 +2,7 @@
 set -euo pipefail
 
 VERSION="1.0.0"
-REPO_URL="https://github.com/OWNER/ensemble.git"
+REPO_URL="https://github.com/BeasyTest/ensemble.git"
 
 # ── Header ────────────────────────────────────────────────────────
 echo "=== Ensemble v${VERSION} Installer ==="

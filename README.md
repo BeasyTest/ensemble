@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="https://github.com/OWNER/ensemble/actions"><img src="https://github.com/OWNER/ensemble/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/BeasyTest/ensemble/actions"><img src="https://github.com/BeasyTest/ensemble/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux-brightgreen.svg" alt="Platform">
 </p>
 
@@ -38,7 +38,7 @@ Ensemble lets you run multiple Claude Code instances simultaneously, each workin
 ### Install
 
 ```bash
-git clone https://github.com/OWNER/ensemble.git
+git clone https://github.com/BeasyTest/ensemble.git
 cd ensemble
 bash install.sh
 ```
